@@ -45,3 +45,14 @@ The first value means that from the 2020-02-20 to 2020-02-21 the stock went down
 percent. The second value means that the stock went up by 10 percent from 2020-02-21 to 2020-02-22.
 Note that 2020-02-20 is missing. This is because there is no value before that so we cannot
 calculate a change in percentage. 
+
+# This solution
+
+Even though the business logic of this service is extremely simple I would like to implement
+this service using a hexagonal architecture. This has the benefit that the business logic can
+be developed independently from the infrastructure (maybe we want this functionality as a command 
+line utility later). (^1) 
+
+(1) One should note that it is questionable why this piece of business logic deserves its own 
+service. Following DDD this service and the other service should most likely be combined as they 
+(more than likely) share a common language in terms of the business logic.   
