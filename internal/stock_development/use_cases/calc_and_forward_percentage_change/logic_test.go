@@ -19,8 +19,9 @@ func (mps *MockPercentageSink) invocations() int {
 	return len(mps.argumentRecorder)
 }
 
-func (mps *MockPercentageSink) Send(spc *domain.StockPercentageChanges) {
+func (mps *MockPercentageSink) Send(spc *domain.StockPercentageChanges) error {
 	mps.argumentRecorder = append(mps.argumentRecorder, spc)
+	return nil
 }
 
 func Test_CreateNewPercentageForwarder(t *testing.T) {
@@ -40,6 +41,24 @@ func Test_CalculateAndForwardChangeForTwoInputDays(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, mps.invocations(), 1)
 	changes := mps.argumentRecorder[0].PercentageChange
-	assert.Equal(t, changes[0].Day, "2020-02-21")
-	assert.Equal(t, changes[0].ChangeInPercent, decimal.NewFromFloat(10))
+	assert.Equal(t, "2020-02-21", changes[0].Day)
+	assert.True(t, decimal.NewFromFloat(10).Equal(changes[0].ChangeInPercent))
+}
+
+func Test_CalculateAndForwardChangeForThreeInputDays(t *testing.T) {
+	mps := NewMockPercentageSink()
+	var pf *PercentageForwarder = NewPercentageForwarder(mps)
+	prices := domain.NewStockPriceSequence("MSF").
+		AddStockPrice("2020-02-20", 100).
+		AddStockPrice("2020-02-21", 110).
+		AddStockPrice("2020-02-22", 90)
+	err := pf.CalcAndForwardAsPercentages(prices)
+
+	assert.NoError(t, err)
+	assert.Equal(t, mps.invocations(), 1)
+	changes := mps.argumentRecorder[0].PercentageChange
+	assert.Equal(t, "2020-02-21", changes[0].Day)
+	assert.True(t, decimal.NewFromFloat(10).Equal(changes[0].ChangeInPercent))
+	assert.Equal(t, "2020-02-22", changes[1].Day)
+	assert.True(t, decimal.NewFromFloat(-18.18).Equal(changes[1].ChangeInPercent))
 }
