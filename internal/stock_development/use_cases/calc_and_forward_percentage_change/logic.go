@@ -3,15 +3,15 @@ package calc_and_forward_percentage_change
 import (
 	"errors"
 	"github.com/phiros/go-http-averages-kata/internal/stock_development/domain"
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/pkg/adapters/out/percentage_sink"
+	"github.com/phiros/go-http-averages-kata/internal/stock_development/pkg/adapters/out/percentages"
 	"github.com/shopspring/decimal"
 )
 
 type PercentageForwarder struct {
-	percentageSink percentage_sink.Port
+	percentageSink percentages.Port
 }
 
-func NewPercentageForwarder(percentageSink percentage_sink.Port) *PercentageForwarder {
+func NewPercentageForwarder(percentageSink percentages.Port) *PercentageForwarder {
 	return &PercentageForwarder{percentageSink: percentageSink}
 }
 
