@@ -1,6 +1,7 @@
 package calc_and_forward_percentage_change
 
 import (
+	"errors"
 	"github.com/phiros/go-http-averages-kata/internal/stock_development/domain"
 	"github.com/phiros/go-http-averages-kata/internal/stock_development/pkg/adapters/out/percentage_sink"
 	"github.com/shopspring/decimal"
@@ -15,6 +16,9 @@ func NewPercentageForwarder(percentageSink percentage_sink.Port) *PercentageForw
 }
 
 func (f *PercentageForwarder) CalcAndForwardAsPercentages(stockPrices *domain.StockPrices) error {
+	if len(stockPrices.StockPrices) < 2 {
+		return errors.New("not enough stock price days")
+	}
 	symbol := stockPrices.Symbol
 	prevDay := stockPrices.StockPrices[0]
 	spc := domain.NewStockPercentageChanges(symbol)

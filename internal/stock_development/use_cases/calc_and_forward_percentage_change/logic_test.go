@@ -62,3 +62,24 @@ func Test_CalculateAndForwardChangeForThreeInputDays(t *testing.T) {
 	assert.Equal(t, "2020-02-22", changes[1].Day)
 	assert.True(t, decimal.NewFromFloat(-18.18).Equal(changes[1].ChangeInPercent))
 }
+
+func Test_FailForZeroInputDays(t *testing.T) {
+	mps := NewMockPercentageSink()
+	var pf *PercentageForwarder = NewPercentageForwarder(mps)
+	prices := domain.NewStockPriceSequence("MSF")
+	err := pf.CalcAndForwardAsPercentages(prices)
+
+	assert.Error(t, err)
+	assert.Equal(t, mps.invocations(), 0)
+}
+
+func Test_FailForOneInputDays(t *testing.T) {
+	mps := NewMockPercentageSink()
+	var pf *PercentageForwarder = NewPercentageForwarder(mps)
+	prices := domain.NewStockPriceSequence("MSF").
+		AddStockPrice("2020-02-20", 100)
+	err := pf.CalcAndForwardAsPercentages(prices)
+
+	assert.Error(t, err)
+	assert.Equal(t, 0, mps.invocations())
+}
