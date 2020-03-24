@@ -5,19 +5,19 @@ type PricePerDay struct {
 	Price int
 }
 
-type StockPriceSequence struct {
+type StockPrices struct {
 	Symbol      string
 	StockPrices []*PricePerDay
 }
 
-func NewStockPriceSequence(s string) *StockPriceSequence {
-	return &StockPriceSequence{
+func NewStockPriceSequence(s string) *StockPrices {
+	return &StockPrices{
 		Symbol:      s,
 		StockPrices: []*PricePerDay{},
 	}
 }
 
-func (s *StockPriceSequence) AddStockPrice(day string, price int) *StockPriceSequence {
+func (s *StockPrices) AddStockPrice(day string, price int) *StockPrices {
 	s.StockPrices = append(s.StockPrices, &PricePerDay{
 		Day:   day,
 		Price: price,
