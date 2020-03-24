@@ -26,3 +26,13 @@ func Test_AddMultipleStockPrices(t *testing.T) {
 	assert.Equal(t, "2020-02-21", sps.StockPrices[1].Day)
 	assert.Equal(t, 110, sps.StockPrices[1].Price)
 }
+
+func Test_SupportFluidInterface(t *testing.T) {
+	sps := NewStockPriceSequence("MSF").
+		AddStockPrice("2020-02-20", 100).
+		AddStockPrice("2020-02-21", 110)
+	assert.Equal(t, "2020-02-20", sps.StockPrices[0].Day)
+	assert.Equal(t, 100, sps.StockPrices[0].Price)
+	assert.Equal(t, "2020-02-21", sps.StockPrices[1].Day)
+	assert.Equal(t, 110, sps.StockPrices[1].Price)
+}

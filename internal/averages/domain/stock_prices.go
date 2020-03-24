@@ -17,9 +17,10 @@ func NewStockPriceSequence(s string) *StockPriceSequence {
 	}
 }
 
-func (s *StockPriceSequence) AddStockPrice(day string, price int) {
+func (s *StockPriceSequence) AddStockPrice(day string, price int) *StockPriceSequence {
 	s.StockPrices = append(s.StockPrices, &PricePerDay{
 		Day:   day,
 		Price: price,
 	})
+	return s
 }
