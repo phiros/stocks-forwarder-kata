@@ -68,3 +68,108 @@ func Test_HttpAdapterPassesTransformedJsonDataToUseCase(t *testing.T) {
 	assert.NotNil(t, httpAdapter)
 	assert.Equal(t, 2, useCaseMock.invocations())
 }
+
+func Test_HttpAdapterErrorsOnJsonWithNoStocks(t *testing.T) {
+	useCaseMock := NewMockUseCase()
+	var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock)
+
+	emptyJSON := `{}`
+	req, err := http.NewRequest("POST", "/prices", strings.NewReader(emptyJSON))
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(httpAdapter.httpHandler())
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, http.StatusBadRequest, rr.Code)
+	assert.NotNil(t, httpAdapter)
+	assert.Equal(t, 0, useCaseMock.invocations())
+}
+
+func Test_HttpAdapterErrorsOnJsonArray(t *testing.T) {
+	useCaseMock := NewMockUseCase()
+	var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock)
+
+	arrayJSON := `10`
+	req, err := http.NewRequest("POST", "/prices", strings.NewReader(arrayJSON))
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(httpAdapter.httpHandler())
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, http.StatusBadRequest, rr.Code)
+	assert.NotNil(t, httpAdapter)
+	assert.Equal(t, 0, useCaseMock.invocations())
+}
+
+func Test_HttpAdapterErrorsOnJsonWithPriceChangeInWrongFormat(t *testing.T) {
+	useCaseMock := NewMockUseCase()
+	var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock)
+
+	jsonWithPriceChangeInWrongFormat := `{
+"msf": [
+[],
+[]
+]
+}`
+	req, err := http.NewRequest("POST", "/prices", strings.NewReader(jsonWithPriceChangeInWrongFormat))
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(httpAdapter.httpHandler())
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, http.StatusBadRequest, rr.Code)
+	assert.NotNil(t, httpAdapter)
+	assert.Equal(t, 0, useCaseMock.invocations())
+}
+
+func Test_HttpAdapterErrorsOnJsonWithPriceChangeNotParseable(t *testing.T) {
+	useCaseMock := NewMockUseCase()
+	var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock)
+
+	jsonWithPriceChangeInWrongFormat := `{
+"msf": [
+[120, 120],
+[90, 90]
+]
+}`
+	req, err := http.NewRequest("POST", "/prices", strings.NewReader(jsonWithPriceChangeInWrongFormat))
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(httpAdapter.httpHandler())
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, http.StatusBadRequest, rr.Code)
+	assert.NotNil(t, httpAdapter)
+	assert.Equal(t, 0, useCaseMock.invocations())
+}
+
+func Test_HttpAdapterErrorsOnJsonWithPriceChangeNotParseableCont(t *testing.T) {
+	useCaseMock := NewMockUseCase()
+	var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock)
+
+	jsonWithPriceChangeInWrongFormat := `{
+"msf": [
+["foo", "bar"],
+["fizz", "buzz"]
+]
+}`
+	req, err := http.NewRequest("POST", "/prices", strings.NewReader(jsonWithPriceChangeInWrongFormat))
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(httpAdapter.httpHandler())
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, http.StatusBadRequest, rr.Code)
+	assert.NotNil(t, httpAdapter)
+	assert.Equal(t, 0, useCaseMock.invocations())
+}
