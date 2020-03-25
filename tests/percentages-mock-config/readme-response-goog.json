@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/percentages/goog",
+    "headers": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "body": "[[\"2020-02-21\",13.64],[\"2020-02-22\",-16.00],[\"2020-02-23\",-14.29]]"
+  },
+  "response": {
+    "statusCode": 200
+  }
+}

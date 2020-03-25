@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/percentages/msf",
+    "headers": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "body": "[[\"2020-02-21\",-16.67],[\"2020-02-22\",10.00],[\"2020-02-23\",18.18]]"
+  },
+  "response": {
+    "statusCode": 200
+  }
+}
