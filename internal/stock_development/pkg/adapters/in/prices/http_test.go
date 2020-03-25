@@ -43,7 +43,7 @@ func (u *mockUseCase) CalcAndForwardAsPercentages(stockPrices *domain.StockPrice
 
 func Test_HttpAdapterCanCallUseCase(t *testing.T) {
 	useCaseMock := NewMockUseCase()
-	var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock)
+	var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock, "/prices")
 	err := httpAdapter.
 		calcAndForwardUseCase.
 		CalcAndForwardAsPercentages(domain.NewStockPriceSequence("MSF"))
@@ -70,9 +70,9 @@ func Test_JsonParsing(t *testing.T) {
 
 	for _, tc := range testCases {
 		useCaseMock := NewMockUseCase()
-		var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock)
+		var httpAdapter *HttpAdapter = NewHttpAdapter(useCaseMock, "/prices")
 
-		req, err := http.NewRequest("POST", "/prices", strings.NewReader(tc.inputJson))
+		req, err := http.NewRequest("POST", httpAdapter.pricesPath, strings.NewReader(tc.inputJson))
 		assert.NoError(t, err)
 
 		rr := httptest.NewRecorder()

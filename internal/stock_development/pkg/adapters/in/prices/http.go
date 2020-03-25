@@ -10,6 +10,7 @@ import (
 
 type HttpAdapter struct {
 	calcAndForwardUseCase calc_and_forward_percentage_change.Port
+	pricesPath            string
 }
 
 type MultipleStockPrices struct {
@@ -63,14 +64,25 @@ func (a *HttpAdapter) httpHandler() http.HandlerFunc {
 			return
 		}
 		for _, sp := range multipleStockPrices.Stocks {
-			_ = a.calcAndForwardUseCase.CalcAndForwardAsPercentages(sp)
+			err = a.calcAndForwardUseCase.CalcAndForwardAsPercentages(sp)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
 		}
 		w.WriteHeader(http.StatusOK)
 	}
 }
 
-func NewHttpAdapter(calcAndForwardUseCase calc_and_forward_percentage_change.Port) *HttpAdapter {
+func NewHttpAdapter(calcAndForwardUseCase calc_and_forward_percentage_change.Port, pricesPath string) *HttpAdapter {
 	return &HttpAdapter{
 		calcAndForwardUseCase: calcAndForwardUseCase,
+		pricesPath:            pricesPath,
 	}
+}
+
+func (h *HttpAdapter) Run() {
+	mux := http.NewServeMux()
+	mux.HandleFunc(h.pricesPath, h.httpHandler())
+	http.ListenAndServe(":8080", mux)
 }
