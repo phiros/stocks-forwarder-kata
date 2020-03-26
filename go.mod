@@ -1,4 +1,4 @@
-module github.com/phiros/go-http-averages-kata
+module github.com/phiros/stocks-forwarder-kata
 
 go 1.14
 

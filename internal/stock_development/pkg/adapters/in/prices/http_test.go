@@ -1,7 +1,7 @@
 package prices
 
 import (
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/domain"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/domain"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"

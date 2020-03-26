@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/domain"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/domain"
 	"net/http"
 )
 

@@ -1,7 +1,7 @@
 package calc_and_forward_percentage_change
 
 import (
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/domain"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/domain"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
 	"testing"

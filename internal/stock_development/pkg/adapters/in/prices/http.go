@@ -3,8 +3,8 @@ package prices
 import (
 	"encoding/json"
 	"errors"
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/domain"
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/use_cases/calc_and_forward_percentage_change"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/domain"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/use_cases/calc_and_forward_percentage_change"
 	"net/http"
 )
 

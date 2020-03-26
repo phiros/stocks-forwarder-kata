@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/pkg/adapters/in/prices"
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/pkg/adapters/out/percentages"
-	"github.com/phiros/go-http-averages-kata/internal/stock_development/use_cases/calc_and_forward_percentage_change"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/pkg/adapters/in/prices"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/pkg/adapters/out/percentages"
+	"github.com/phiros/stocks-forwarder-kata/internal/stock_development/use_cases/calc_and_forward_percentage_change"
 	"os"
 )
 

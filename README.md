@@ -1,10 +1,10 @@
-# Go http averages kata
+# stocks forwarding kata
 
 The goal of this kata is to improve your skills when it comes to testing
 http services in golang. The application to be build will calculate the 
 daily percentage-wise change in stock prices for a particular stock and forward
 this result to another service. You may implement the receiving endpoint
-in whichever you way you see fit. However, it should receive JSON in the following
+in whichever way you see fit. However, it should receive JSON in the following
 format:
 
 ```json
